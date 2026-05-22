@@ -1,0 +1,84 @@
+replicaCount: ${replica_count}
+image:
+  repository: ${registry_images_url}
+  name: hashicorp/terraform-enterprise
+  tag: ${tfe_release}
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    memory: "500Mi"
+    cpu: "250m"
+  limits:
+    memory: "6000Mi"
+    cpu: "4000m"
+
+# agentWorkerPodTemplate:
+#   # metadata:
+#   #   labels:
+#   #     info: pod-template-info-hashicorp
+#   spec:
+#     containers:
+#       - image: "patrickmunne3/custom-agent-openshift:v1.5"
+#         env:
+#           - name: TFC_AGENT_LOG_LEVEL
+#             value: TRACE
+
+service:
+  annotations:
+  type: ClusterIP
+
+openshift:
+  enabled: true
+
+env:
+  variables:
+    TFE_CAPACITY_CONCURRENCY: 10
+   # TFE_CAPACITY_MEMORY: 2048
+    #TFE_CAPACITY_CPU: 2
+    TFE_HOSTNAME: ${fqdn}
+    TFE_OPERATIONAL_MODE: active-active
+    TFE_DATABASE_HOST: ${pg_address}
+    TFE_DATABASE_NAME: ${pg_dbname}
+    TFE_DATABASE_USER: ${pg_user}
+    TFE_DATABASE_PARAMETERS: sslmode=disable
+    TFE_OBJECT_STORAGE_TYPE: s3
+    TFE_OBJECT_STORAGE_S3_BUCKET: ${s3_bucket}
+    TFE_OBJECT_STORAGE_S3_REGION: "justavalue"
+    TFE_OBJECT_STORAGE_S3_ACCESS_KEY_ID: ${s3_bucket_key}
+    TFE_OBJECT_STORAGE_S3_SECRET_ACCESS_KEY: ${s3_bucket_secret}
+    TFE_OBJECT_STORAGE_S3_ENDPOINT: ${s3_endpoint}
+    TFE_OBJECT_STORAGE_S3_USE_INSTANCE_PROFILE: false
+    TFE_ATLAS_REGISTRY_MONOREPO_TOGGLE_ENABLED: 1
+    TFE_RUN_PIPELINE_IMAGE: ${tfe_agent_image}
+
+
+    TFE_EXPLORER_DATABASE_USER: ${pg_user}
+    TFE_EXPLORER_DATABASE_PASSWORD: ${pg_password}
+    TFE_EXPLORER_DATABASE_HOST: ${pg_address}
+    TFE_EXPLORER_DATABASE_NAME: "tfe_explorer"
+    TFE_EXPLORER_DATABASE_PARAMETERS: sslmode=disable
+
+
+    TFE_REDIS_HOST: ${redis_host}:${redis_port}
+    TFE_IACT_SUBNETS: "0.0.0.0/0"
+
+
+
+%{ if enable_proxy ~}
+    # proxy settings
+    http_proxy: http://${tag_prefix}-squid:3128
+    https_proxy: http://${tag_prefix}-squid:3128
+    no_proxy: localhost,127.0.0.1,169.254.169.24,${fqdn},${tag_prefix}-seaweedfs.${namespace}.svc.cluster.local
+%{ endif ~}    
+
+  secrets:
+    TFE_DATABASE_PASSWORD: ${pg_password}
+    TFE_ENCRYPTION_PASSWORD:  ${enc_password}
+    TFE_LICENSE: ${tfe_license} 
+
+tls:
+  certData: ${cert_data}
+  keyData: ${key_data}
+  caCertData: ${ca_cert_data}
+

@@ -15,7 +15,7 @@ resource "kubernetes_secret_v1" "postgres" {
 resource "kubernetes_config_map_v1" "postgres_init" {
   metadata {
     name      = "${var.tag_prefix}-postgres-init"
-    namespace = namespace = var.namespace
+    namespace = var.namespace
   }
   data = {
     "init-db.sh" = <<-EOF

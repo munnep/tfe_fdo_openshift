@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 
 if [ -z $1 ] || [ -z $2 ] || [ -z $4 ] ; then
@@ -20,7 +19,7 @@ PASSWORD=$4
 
 # We have to wait for TFE be fully functioning before we can continue
 while true; do
-    if curl -skI "https://$HOSTNAME/admin" 2>&1 | grep -w "200\|301" ; 
+    if curl -4skI "https://$HOSTNAME/admin" 2>&1 | grep -w "200\|301" ; 
     then
         echo "TFE is up and running"
         echo "Will continue in a few seconds with the final steps"
@@ -35,17 +34,17 @@ done
 
 # Get activation token
 echo "Getting the initial activation token"
-INITIAL_TOKEN=`curl -s https://$HOSTNAME/admin/retrieve-iact`
+INITIAL_TOKEN=`curl -4sk https://$HOSTNAME/admin/retrieve-iact`
 
 # Create iser admin and get the token
 echo "Create the first user called admin and geting the token"
-ADMIN_TOKEN=`curl -k --header "Content-Type: application/json" --request POST --data "{\"username\": \"$ADMIN_USER\",\"email\": \"$EMAIL_ADDRESS\", \"password\": \"$PASSWORD\"}"   --url https://$HOSTNAME/admin/initial-admin-user?token=$INITIAL_TOKEN`
+ADMIN_TOKEN=`curl -4k --header "Content-Type: application/json" --request POST --data "{\"username\": \"$ADMIN_USER\",\"email\": \"$EMAIL_ADDRESS\", \"password\": \"$PASSWORD\"}"   --url https://$HOSTNAME/admin/initial-admin-user?token=$INITIAL_TOKEN`
 
 TOKEN=`echo $ADMIN_TOKEN | jq -r .token`
 
 # create organization test
 echo "Creating organization test"
-curl -k \
+curl -4k \
  --header "Authorization: Bearer $TOKEN" \
  --header "Content-Type: application/vnd.api+json" \
  --request POST \

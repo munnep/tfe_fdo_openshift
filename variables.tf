@@ -200,3 +200,9 @@ variable "acme_server_url" {
   type        = string
   default     = "https://acme-v02.api.letsencrypt.org/directory"
 }
+
+variable "seaweedfs_service" {
+  description = "acme server url to use"
+  type        = string
+  default = "LoadBalancer"
+}

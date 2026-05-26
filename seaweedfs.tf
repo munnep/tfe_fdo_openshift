@@ -137,7 +137,7 @@ resource "kubernetes_service_v1" "seaweedfs" {
       port        = 8888
       target_port = 8888
     }
-    type = "LoadBalancer"
+    type = var.seaweedfs_service
   }
   wait_for_load_balancer = false
 }

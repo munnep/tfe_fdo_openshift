@@ -1,0 +1,21 @@
+# General
+dns_zone            = "example.com"                  # Main domain for Route53
+dns_subdomain       = "tfe3"                        # Subdomain for TFE
+cert_email          = "example@ibm.com"             # Email for certificate generation
+kubectl_config_path = "/Users/example/.kube/config" # Full path to kubeconfig file
+
+# Cloudflare
+cloudflare_account_id = "" # Cloudflare account ID
+cloudflare_api_token  = "" # API token for Cloudflare
+
+
+# TFE
+admin_username          = "admin"           # Username for TFE admin user
+admin_email             = "example@ibm.com" # Email for TFE admin user
+admin_password          = "Password#1"      # Password for TFE admin user
+tfe_encryption_password = "Password#1"      # Encryption password for TFE
+release_sequence        = "2.0.2"           # TFE release sequence
+replica_count           = 1                 # Number of TFE replica
+
+## license
+tfe_raw_license = "" # License string for TFE

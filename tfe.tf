@@ -56,7 +56,8 @@ resource "helm_release" "tfe" {
 }
 
 output "tfe_execute_script_to_create_user_admin" {
-  value = "./scripts/configure_tfe.sh ${local.fqdn} ${var.admin_email} ${var.admin_username} ${var.admin_password}"
+  # value = "./scripts/configure_tfe.sh ${local.fqdn} ${var.admin_email} ${var.admin_username} ${var.admin_password}"
+  value = "curl -sSL https://raw.githubusercontent.com/munnep/tfe_fdo_openshift/main/scripts/configure_tfe.py | python3 - ${var.admin_email} ${var.admin_username} ${var.admin_password}"
 }
 
 output "tfe_url" {

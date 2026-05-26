@@ -68,13 +68,6 @@ After successful deployment, the module provides the following outputs:
 | `cloudflare_list_tunnels_command` | Command to list Cloudflare tunnels |
 | `cloudflare_delete_tunnel_command` | Command to delete the Cloudflare tunnel |
 
-Example output:
-```
-tfe_url = "https://tfe3.example.com"
-tfe_admin_console = "https://admin-tfe3.example.com"
-tfe_execute_script_to_create_user_admin = "./scripts/configure_tfe.sh tfe3.example.com example@ibm.com admin Password#1"
-```
-
 
 ## Proxy Configuration
 

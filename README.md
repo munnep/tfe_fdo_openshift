@@ -6,10 +6,7 @@ This Terraform module deploys Terraform Enterprise (TFE) in Flexible Deployment 
 
 - [Prerequisites](#prerequisites)
 - [Architecture](#architecture)
-- [Cloudflare Setup](#cloudflare-setup)
-  - [Create Cloudflare API Token](#create-cloudflare-api-token)
 - [Module Usage](#module-usage)
-  - [Configuration](#configuration)
   - [Deployment](#deployment)
   - [Outputs](#outputs)
 - [Proxy Configuration](#proxy-configuration)
